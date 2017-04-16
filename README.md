@@ -10,7 +10,7 @@ How this fork is different from the original:
  * The original source pulls in over [11 MB of Google SDK code which is never used](https://github.com/kreait/firebase-php/issues/74). These useless files are stripped out of the Composer vendor tree and the `autoload.php` file has been edited so that the 5000+ unused classes are not loaded. At a later stage the dependency should be completely removed. 
  * The `Query` class now supports the `silent` parameter.
  * The `set`, `put`, `update` and `delete` functions are now sent with the `silent` parameter. The functions now return the HTTP status code so you can see if the operation was a success or not.
-
+ * This fork is meant to be a "working snapshot". The code works as it is now and will be more or less "frozen". I wont be actively maintaining it unless there is a serious security flaw or incompatibility. If you are looking for a more up to date version, please see the original repo.
 ---
 
 ## Quick usage example
