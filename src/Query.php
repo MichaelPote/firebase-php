@@ -16,6 +16,7 @@ namespace Kreait\Firebase;
  */
 class Query
 {
+
     const LIMIT_TO_FIRST = 'limitToFirst';
     const LIMIT_TO_LAST = 'limitToLast';
 
@@ -59,7 +60,28 @@ class Query
      */
     private $shallow;
 
-    /**
+	/**
+	 * The print mode. Can be blank for none, pretty or silent.
+	 */
+	private $silent;
+	private $pretty;
+
+	/**
+	 * Query constructor.
+	 * @param bool $shallow
+	 * @param bool $silent
+	 * @param bool $pretty
+	 */
+	public function __construct($shallow=false, $silent = false, $pretty = false)
+	{
+		$this->shallow = $shallow;
+		$this->silent = $silent;
+		$this->pretty = $pretty;
+
+	}
+
+
+	/**
      * Order results by the given child key.
      *
      * @param string $childKey The key to order by.
@@ -165,7 +187,36 @@ class Query
         return $this;
     }
 
-    /**
+	/**
+	 * Mark query as silent.
+	 *
+	 * @param bool $silent
+	 *
+	 * @return $this
+	 */
+	public function silent($silent)
+	{
+		$this->silent = $silent;
+
+		return $this;
+	}
+
+	/**
+	 * Mark query as pretty print.
+	 *
+	 * @param bool $pretty
+	 *
+	 * @return $this
+	 */
+	public function pretty($pretty)
+	{
+		$this->pretty = $pretty;
+
+		return $this;
+	}
+
+
+	/**
      * Return items equal to the specified key or value, depending on the order-by method chosen.
      *
      * @param int|string|bool $equalTo
@@ -187,15 +238,26 @@ class Query
     public function toArray()
     {
         if ($this->shallow) {
-            return ['shallow' => 'true'];
+        	$result = ['shallow' => 'true'];
+        	if ($this->pretty) $result['print'] = 'pretty';
+            return $result;
         }
 
         $result = [];
 
-        // An orderBy must be set for the other parameters to work
+	    if ($this->silent)
+	    {
+		    $result['print'] = 'silent';
+		    return $result;
+	    }
+
+	    if ($this->pretty) $result['print'] = 'pretty';
+
+	    // An orderBy must be set for the other parameters to work
         $result['orderBy'] = json_encode($this->orderBy ?: '$key');
 
-        if ($this->limitTo) {
+
+	    if ($this->limitTo) {
             $result[$this->limitTo[0]] = json_encode($this->limitTo[1]);
         }
 

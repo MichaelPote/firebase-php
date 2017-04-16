@@ -124,33 +124,35 @@ class Firebase implements FirebaseInterface
 
     public function set($data, $location)
     {
-        $url = $this->createRequestUrl($location);
+	    $url = $this->createRequestUrl($location, new Query(false, true));
         $response = $this->send($url, RequestInterface::METHOD_PUT, $data);
 
-        return json_decode((string) $response->getBody(), true);
+        return $response->getStatusCode();
     }
 
     public function push($data, $location)
     {
-        $url = $this->createRequestUrl($location);
+	    $url = $this->createRequestUrl($location, new Query(false, true));
         $response = $this->send($url, RequestInterface::METHOD_POST, $data);
-        $data = json_decode((string) $response->getBody(), true);
 
-        return $data['name'];
+
+        return  $response->getStatusCode();
     }
 
     public function update($data, $location)
     {
-        $url = $this->createRequestUrl($location);
+	    $url = $this->createRequestUrl($location, new Query(false, true));
         $response = $this->send($url, RequestInterface::METHOD_PATCH, $data);
 
-        return json_decode((string) $response->getBody(), true);
+        return $response->getStatusCode();
     }
 
     public function delete($location)
     {
-        $url = $this->createRequestUrl($location);
-        $this->send($url, RequestInterface::METHOD_DELETE);
+        $url = $this->createRequestUrl($location, new Query(false, true));
+        $response = $this->send($url, RequestInterface::METHOD_DELETE);
+
+        return $response->getStatusCode();
     }
 
     public function setAuthOverride($uid, array $claims = [])

@@ -23,6 +23,10 @@
         "firebase/token-generator": "^3.0",
         "google/apiclient": "^2.0"
     },
+	"config":
+	{
+		"optimize-autoloader": true
+	},
     "require-dev": {
         "phpunit/phpunit": "^4.7|^5.0",
         "symfony/event-dispatcher": "^2.7|^3.0",
@@ -32,9 +36,6 @@
     },
     "autoload": {
         "psr-4": { "Kreait\\Firebase\\": "src/" }
-    },
-    "autoload-dev": {
-        "psr-4": { "Kreait\\Firebase\\": "tests/" }
     },
     "extra": {
         "branch-alias": {
